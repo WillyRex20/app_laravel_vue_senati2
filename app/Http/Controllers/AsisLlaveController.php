@@ -6,6 +6,8 @@ use App\Models\AsisLlave;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AsisLlaveController extends Controller
 {
@@ -14,8 +16,10 @@ class AsisLlaveController extends Controller
      */
     public function index()
     {
-        $llaves = AsisLlave::all();
+        //$llaves = AsisLlave::all();
         //return response()->json($llaves);
+        $llaves = DB::select('select * from asis_llave a 
+        left join users u on u.id = a.usuario_registra order by a.id_llave desc');
         return Inertia::render('configuracion/AsisLlaves', [
             'llaves' => $llaves,
             'estudiante' => [
@@ -62,6 +66,8 @@ class AsisLlaveController extends Controller
             'orden' => 'required',
         ]);
 
+        $validador['usuario_registra'] = Auth::id();
+
         AsisLlave::create($validador);
         return Redirect::route('configuracion.llaves')->with('success', 'Llave creada correctamente');
     }
@@ -94,9 +100,12 @@ class AsisLlaveController extends Controller
             'orden' => 'required',
         ]);
 
+        $validador['usuario_actualiza'] = Auth::id();
+
         
         $llave = AsisLlave::findOrFail($id_llave);
-        dd($llave);
+        $llave->update($validador);
+        return Redirect::route('configuracion.llaves')->with('success', 'Llave actualizada correctamente');
     }
 
     /**
