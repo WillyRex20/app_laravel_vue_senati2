@@ -117,5 +117,5 @@ class AsisLlaveController extends Controller
         $llave->delete();
         return Redirect::route('configuracion.llaves')
         ->with('success', 'Llave eliminada correctamente');
-    }
+    }   
 }

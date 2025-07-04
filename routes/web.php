@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\VProductoController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\AsisLlaveController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -70,6 +71,10 @@ Route::post('/configuracion/CrearLlave', [AsisLlaveController::class,'store'])->
 Route::delete('/configuracion/EliminarLlave/{id_llave}', [AsisLlaveController::class,'destroy'])->name('configuracion.EliminarLlave');
 Route::get('/configuracion/llaves-pdf', [AsisLlaveController::class,'llavepdf'])->name('configuracion.llaves-pdf');
 Route::put('/configuracion/UpdateLlave/{id_llave}', [AsisLlaveController::class,'update'])->name('configuracion.UpdateLlave');
+
+//Rutas de usuarios
+Route::get('/configuracion/usuarios-listas', [UserController::class,'listar'])->name('configuracion.usuarios-listas');
+Route::get('/configuracion/usuarios-buscar', [UserController::class,'buscar'])->name('configuracion.usuarios-buscar');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

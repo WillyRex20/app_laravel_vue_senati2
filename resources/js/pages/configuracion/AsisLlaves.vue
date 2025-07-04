@@ -55,6 +55,17 @@
     <span v-if="form.errors.orden" class="text-red-500 text-xs mt-1">{{ form.errors.orden }}</span>
 </div>
 
+<!-- agregando usuarios -->
+ <div class="mb-2">
+    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>
+  <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <option selected>Seleccione un usuario</option>
+    <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">{{ usuario.name }}
+</option>
+
+  </select>
+ </div> <br>
+
 <div class="flex justify-start">
                 <button 
                 type="button" 
@@ -161,8 +172,11 @@
   import { type BreadcrumbItem } from '@/types';
   import { defineProps, watch, ref } from 'vue';
   import Swal from 'sweetalert2';
+  import axios from 'axios';
+  import { onBeforeMount, onMounted } from 'vue';
 
   const esEditar = ref(false);
+  const usuarios = ref<Usuarios[]>([]);
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -225,6 +239,24 @@ function mostrarPDF(){
     window.open(route('configuracion.llaves-pdf'));
 }
 
+onBeforeMount(() => {
+    console.log('aqui se ejecuta el onBeforeMount');
+});
+onMounted(() => {
+    cargarUsuarios();
+});
+
+async function cargarUsuarios(){
+    try {
+        const respuesta = await axios.get(route('configuracion.usuarios-listas'));
+        if(respuesta.data && Array.isArray(respuesta.data)){
+            console.log(respuesta.data);
+            usuarios.value = respuesta.data;
+        }
+    }catch (error) {
+        console.log(error);
+    }
+}
 
 
   const props = defineProps({
@@ -279,6 +311,12 @@ watch(
     estado: number;
     orden: number;
     };
+
+    interface Usuarios {
+        id: number;
+        name: string;
+        email: string;
+    }
 
      </script>
   

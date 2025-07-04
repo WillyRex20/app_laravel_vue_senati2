@@ -9,6 +9,6 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         </div>
     </div>
     <div class="ml-1 grid flex-1 text-left text-sm">
-        <span class="p-1 truncate font-semibold leading-none">degidev</span>
+        <span class="p-1 truncate font-semibold leading-none">WillyRex</span>
     </div>
 </template>
